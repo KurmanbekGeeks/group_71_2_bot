@@ -9,7 +9,7 @@ router_commands = Router()
 async def start_handler(message: Message):
     await message.answer('Привет мир!')
 
-    await bot.send_message(chat_id=995712956, 
+    await bot.send_message(chat_id=message.from_user.id, 
                            text=f'Привет! {message.from_user.full_name} \nТвой телеграм ID > {message.from_user.id}')
 
 
