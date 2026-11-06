@@ -7,3 +7,7 @@ create_product_table = """
         photo TEXT
     )
 """
+
+
+add_product = 'INSERT INTO products (name_product, price, description, photo) VALUES (?, ?, ?, ?)'
+
