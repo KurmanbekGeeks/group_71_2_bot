@@ -11,3 +11,4 @@ create_product_table = """
 
 add_product = 'INSERT INTO products (name_product, price, description, photo) VALUES (?, ?, ?, ?)'
 
+get_products = "SELECT name_product, price, description, photo FROM products"

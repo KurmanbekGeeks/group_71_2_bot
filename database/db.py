@@ -17,6 +17,12 @@ async def add_product_db(name, price, description, photo):
         await conn.commit()
 
 
+async def get_products_db():
+    async with aiosqlite.connect(path_db) as conn:
+        cursor = await conn.execute(queries.get_products)
+        products = await cursor.fetchall()
+    return products
+
 # ==========================================================
 # import sqlite3
 # from database.queries import create_product_table

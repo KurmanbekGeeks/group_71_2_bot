@@ -3,10 +3,20 @@ import logging
 from config import bot, dp
 from handlers import commands, echo, fsm_add_product
 from database import db
+from aiogram.types import BotCommand
 
+async def set_commands():
+    commands = [
+        BotCommand(command='start', description='Старт бота'),
+        BotCommand(command='mem', description='отправка мема'),
+        BotCommand(command='add_product', description='Добавление товара'),
+        BotCommand(command='products', description='Получение товаров')
+    ]
+    await bot.set_my_commands(commands)
 
 async def on_startup():
     await db.init_db()
+    await set_commands()
     await bot.send_message(chat_id=995712956, text="Бот включен!")
 
 
