@@ -16,3 +16,12 @@ menu_buttons = InlineKeyboardMarkup(
         [InlineKeyboardButton(text='Мем', callback_data='mem')]
     ]
 )
+
+def product_actions(product_id):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text='Редактировать', callback_data=f'edit:{product_id}')]
+        ]
+    )
+
+# edit:100 

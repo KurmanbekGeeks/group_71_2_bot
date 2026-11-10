@@ -1,0 +1,22 @@
+-- database: ./bot.db
+
+SELECT p.name_product, p.price, pd.photo, pd.description, pd.category, p.product_id 
+FROM products p
+INNER JOIN products_detail pd ON p.product_id = pd.product_id;
+
+
+SELECT * FROM products p 
+LEFT JOIN products_detail pd ON p.product_id = pd.product_id;
+
+
+SELECT * FROM products p 
+RIGHT JOIN products_detail pd ON p.product_id = pd.product_id;
+
+
+SELECT * FROM products p 
+FULL JOIN products_detail pd ON p.product_id = pd.product_id;
+
+
+UPDATE products SET name_product = "Puma" WHERE product_id = 101;
+
+DELETE FROM products WHERE product_id = 101;

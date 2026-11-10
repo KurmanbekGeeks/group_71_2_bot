@@ -7,13 +7,15 @@ path_db = 'database/bot.db'
 async def init_db():
     async with aiosqlite.connect(path_db) as conn:
         await conn.execute(queries.create_product_table)
+        await conn.execute(queries.create_products_detail_table)
         await conn.commit()
     print('db connection')
 
 
-async def add_product_db(name, price, description, photo):
+async def add_product_db(name, price, description, photo, category, product_id):
     async with aiosqlite.connect(path_db) as conn:
-        await conn.execute(queries.add_product, (name, price, description, photo))
+        # await conn.execute(queries.add_product, (name, price, product_id))
+        await conn.execute(queries.add_product_detail, (description, photo, category, product_id))
         await conn.commit()
 
 

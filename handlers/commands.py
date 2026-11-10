@@ -3,7 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, FSInputFile, CallbackQuery
 from config import bot
 from database import db
-from handlers.buttons import main_buttons, menu_buttons
+from handlers.buttons import main_buttons, menu_buttons, product_actions
 
 router_commands = Router()
 
@@ -43,5 +43,12 @@ async def mem_handler_inline_test(call: CallbackQuery):
 async def get_products(message: Message):
     products = await db.get_products_db()
 
-    for name_product, price, description, photo in products:
-        await message.answer_photo(photo=photo, caption=f"Название - {name_product} \nЦена - {price} \nОписание - {description}")
+    for name_product, price, photo, description, category, product_id in products:
+        await message.answer_photo(photo=photo, 
+                                   caption=f"""
+Название - {name_product}
+\nЦена - {price}
+\nОписание - {description}
+\nКатегория - {category}
+\nАртикул - {product_id}
+""", reply_markup=product_actions(product_id=product_id))

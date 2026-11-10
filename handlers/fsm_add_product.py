@@ -10,6 +10,8 @@ class AddProduct(StatesGroup):
     price = State()
     description = State()
     photo = State()
+    product_id = State()
+    category = State()
 
 
 router_add_product = Router()
@@ -44,13 +46,27 @@ async def add_description(message: Message, state: FSMContext):
 
 @router_add_product.message(AddProduct.photo)
 async def add_photo(message: Message, state: FSMContext):
-    print(message.photo)
     await state.update_data(photo=message.photo[-1].file_id)
+    await message.answer('ВВедите артикул для товара:')
+    await state.set_state(AddProduct.product_id)
+
+@router_add_product.message(AddProduct.product_id)
+async def add_product_id(message: Message, state: FSMContext):
+    await state.update_data(product_id=message.text)
+    await message.answer('Введите категорию товара:')
+    await state.set_state(AddProduct.category)
+
+@router_add_product.message(AddProduct.category)
+async def add_category(message: Message, state: FSMContext):
+    await state.update_data(category=message.text)
 
     data = await state.get_data()
 
-    await add_product_db(name=data['name'], price=data['price'], description=data['description'], photo=data['photo'])
+    await add_product_db(name=data['name'], price=data['price'], description=data['description'], photo=data['photo'],
+                          category=data['category'], product_id=data['product_id'])
 
-    await message.answer_photo(photo=data['photo'], caption=f"Товар добавлен: Название - {data['name']} цена - {data['price']} Описание - {data['description']}")
+    await message.answer_photo(photo=data['photo'], 
+                               caption=f"Товар добавлен: \nНазвание - {data['name']} \nцена - {data['price']}" 
+                               f"\nОписание - {data['description']} \nКатегория - {data['category']} \nАртикул = {data['product_id']}")
 
     await state.clear()
