@@ -28,3 +28,6 @@ create_products_detail_table = """
 """
 
 add_product_detail = 'INSERT INTO products_detail (description, photo, category, product_id) VALUES (?, ?, ?, ?)'
+
+
+update_product = 'UPDATE {table} SET {field} = ? WHERE product_id = ?'

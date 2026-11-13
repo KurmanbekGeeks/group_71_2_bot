@@ -25,3 +25,11 @@ def product_actions(product_id):
     )
 
 # edit:100 
+
+
+edit_fields = InlineKeyboardMarkup(
+    inline_keyboard=[
+        [InlineKeyboardButton(text='Название', callback_data='field_name'), InlineKeyboardButton(text='Цена', callback_data='field_price')],
+        [InlineKeyboardButton(text='Описание', callback_data='field_description'), InlineKeyboardButton(text='Категория', callback_data='field_category')]
+    ]
+)

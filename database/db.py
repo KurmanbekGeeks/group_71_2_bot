@@ -25,6 +25,22 @@ async def get_products_db():
         products = await cursor.fetchall()
     return products
 
+
+async def update_product_db(field, value, product_id):
+    if field in ('name', 'price'):
+        table = 'products'
+    elif field in ('description', 'category'):
+        table = 'products_detail'
+    else:
+        print(f'Нет таблицы для вашего поля {field}')
+        return
+
+    query = queries.update_product.format(table=table, field=field)
+
+    async with aiosqlite.connect(path_db) as conn:
+        await conn.execute(query, (value, product_id))
+        await conn.commit()
+
 # ==========================================================
 # import sqlite3
 # from database.queries import create_product_table
