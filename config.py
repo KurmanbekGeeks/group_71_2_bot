@@ -6,3 +6,4 @@ token = config("TOKEN")
 bot = Bot(token=token)
 dp = Dispatcher()
 
+staff_code = 'S01JO'

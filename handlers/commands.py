@@ -41,14 +41,29 @@ async def mem_handler_inline_test(call: CallbackQuery):
 
 @router_commands.message(Command('products'))
 async def get_products(message: Message):
+    staff = await db.get_staff_list_db()
+    staff_ids = [user_id for user_id, full_name in staff]
+
     products = await db.get_products_db()
 
     for name_product, price, photo, description, category, product_id in products:
-        await message.answer_photo(photo=photo, 
-                                   caption=f"""
-Название - {name_product}
-\nЦена - {price}
-\nОписание - {description}
-\nКатегория - {category}
-\nАртикул - {product_id}
-""", reply_markup=product_actions(product_id=product_id))
+
+        if message.from_user.id in staff_ids:
+                    await message.answer_photo(photo=photo, 
+                                            caption=f'Название - {name_product} \nЦена - {price} \nОписание - {description} \nКатегория - {category} \nАртикул - {product_id}', 
+                                            reply_markup=product_actions(product_id=product_id))
+        else:
+            await message.answer_photo(photo=photo, 
+                                            caption=f'Название - {name_product} \nЦена - {price} \nОписание - {description} \nКатегория - {category} \nАртикул - {product_id}')
+
+
+@router_commands.message(Command('staff'))
+async def staff_list(message: Message):
+    staff = await db.get_staff_list_db()
+    staff_ids = [user_id for user_id, full_name in staff]
+
+    if message.from_user.id in staff_ids:
+        for user_id, full_name in staff:
+            await message.answer(f'ФИО - {full_name} \nID - {user_id}')
+    else: 
+        await message.answer('У вас нет доступов к этой команде!')

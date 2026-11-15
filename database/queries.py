@@ -31,3 +31,19 @@ add_product_detail = 'INSERT INTO products_detail (description, photo, category,
 
 
 update_product = 'UPDATE {table} SET {field} = ? WHERE product_id = ?'
+
+create_table_staff = """
+CREATE TABLE IF NOT EXISTS staff (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL UNIQUE,
+    full_name TEXT,
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+"""
+
+check_staff = "SELECT 1 FROM staff WHERE user_id = ?"
+
+insert_staff = 'INSERT INTO staff (user_id, full_name) VALUES (?, ?)'
+
+get_staff_list = 'SELECT user_id, full_name FROM staff'
+
